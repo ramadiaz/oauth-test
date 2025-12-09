@@ -49,36 +49,58 @@ const Page = () => {
           </div>
         </div>
 
-        <GoogleOAuthProvider clientId={clientId}>
-          {/* Configuration Card */}
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-              <Key className="w-5 h-5 mr-2 text-indigo-500" />
-              Configuration
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="clientId" className="block text-sm font-medium text-gray-700 mb-2">
+        {/* Configuration Card */}
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+            <Key className="w-5 h-5 mr-2 text-indigo-500" />
+            Configuration
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="clientId" className="block text-sm font-medium text-gray-700">
                   Google Client ID
                 </label>
-                <input
-                  id="clientId"
-                  type="text"
-                  value={clientId}
-                  onChange={(e) => setClientId(e.target.value)}
-                  placeholder="Enter your Google Client ID (e.g., 123456789-abc123.apps.googleusercontent.com)"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                />
+                <button
+                  onClick={() => setClientId("1077399580849-h8feptblkadfh505dmjic72n4mkhp5r3.apps.googleusercontent.com")}
+                  className="text-xs bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-medium px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1"
+                  title="Use Xanny Google Client ID"
+                >
+                  <Key className="w-3 h-3" />
+                  <span>Use Xanny Google Client ID</span>
+                </button>
               </div>
-              <LoginButton setTokenResponse={setTokenResponse} />
+              <input
+                id="clientId"
+                type="text"
+                value={clientId}
+                onChange={(e) => setClientId(e.target.value)}
+                placeholder="Enter your Google Client ID (e.g., 123456789-abc123.apps.googleusercontent.com)"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              />
             </div>
+            {clientId && clientId.trim() !== "" && clientId !== "YOUR_GOOGLE_CLIENT_ID" ? (
+              <GoogleOAuthProvider clientId={clientId}>
+                <LoginButton setTokenResponse={setTokenResponse} />
+              </GoogleOAuthProvider>
+            ) : (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="flex items-start">
+                  <Info className="w-5 h-5 text-yellow-500 mr-3 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-yellow-800 font-medium">Client ID Required</h3>
+                    <p className="text-yellow-700 mt-1 text-sm">Please enter a valid Google Client ID to enable the login button.</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+        </div>
 
-          {/* Token Response Card */}
-          {tokenResponse && (
-            <TokenDisplay tokenResponse={tokenResponse} />
-          )}
-        </GoogleOAuthProvider>
+        {/* Token Response Card */}
+        {tokenResponse && (
+          <TokenDisplay tokenResponse={tokenResponse} />
+        )}
       </div>
     </div>
   )
